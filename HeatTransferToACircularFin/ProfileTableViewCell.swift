@@ -9,6 +9,10 @@
 import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
+    
+    
+    @IBOutlet weak var segmentNumberLabel: UILabel!
+    @IBOutlet weak var segmentTemperatureLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

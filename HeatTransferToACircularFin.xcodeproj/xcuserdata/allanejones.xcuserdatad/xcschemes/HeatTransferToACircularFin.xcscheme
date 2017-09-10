@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,20 +17,6 @@
                BlueprintIdentifier = "22FE4A4D1B26126E00DD1E24"
                BuildableName = "HeatTransferToACircularFin.app"
                BlueprintName = "HeatTransferToACircularFin"
-               ReferencedContainer = "container:HeatTransferToACircularFin.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "22FE4A621B26126E00DD1E24"
-               BuildableName = "HeatTransferToACircularFinTests.xctest"
-               BlueprintName = "HeatTransferToACircularFinTests"
                ReferencedContainer = "container:HeatTransferToACircularFin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

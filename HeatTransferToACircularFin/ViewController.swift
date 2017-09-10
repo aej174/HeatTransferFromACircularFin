@@ -4,215 +4,238 @@
 //
 //  Created by Allan Jones on 6/8/15.
 //  Copyright (c) 2015 Allan Jones. All rights reserved.
+//    Modified on 9/3/17
 //
 
 import UIKit
+import Foundation
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController {
   
-  @IBOutlet weak var finODTextField: UITextField!
-  @IBOutlet weak var finIDTextField: UITextField!
-  @IBOutlet weak var finThicknessTextField: UITextField!
-  @IBOutlet weak var finThermalConductivityTextField: UITextField!
-  @IBOutlet weak var heatTransferCoefficientTextField: UITextField!
-  @IBOutlet weak var hotFluidTemperatureTextField: UITextField!
-  @IBOutlet weak var ambientTemperatureTextField: UITextField!
-  @IBOutlet weak var finHeatTransferRateTextField: UITextField!
-  @IBOutlet weak var finEfficiencyTextField: UITextField!
-  
-  @IBOutlet weak var tableView: UITableView!
-  
-  let pi = 3.1415926
-  
-  let numberOfSegments = 21
-  
-  let dr: Double = 0.0
+    @IBOutlet weak var finODTextField: UITextField!
+    @IBOutlet weak var finIDTextField: UITextField!
+    @IBOutlet weak var finThicknessTextField: UITextField!
+    @IBOutlet weak var finConductivityTextField: UITextField!
     
-  var segments: [Segment] = []
+    @IBOutlet weak var hotFluidTempTextField: UITextField!
+    @IBOutlet weak var coldFluidTempTextField: UITextField!
+    @IBOutlet weak var heatTransferCoeffTextField: UITextField!
     
-  var segment = Segment()
+    @IBOutlet weak var heatTransferRateLabel: UILabel!
+    @IBOutlet weak var finEfficiencyLabel: UILabel!
+   
+    let pi = 3.1415926
+  
+    let n1 = 21  //n = numberOfSegments plus 1
+  
+    let dr: Double = 0.0
     
-  var temperatures = [Double](count: 21, repeatedValue: 100.0)
-  var avgRadius = [Double](count: 21, repeatedValue: 0.0)
+    var segments: [Segment] = []
     
-  var profileArray: [Dictionary<String,String>] = []
+    var segment = Segment()
+    
+    var profileDict: Dictionary<String,String> = [:]
+    var profileArray: [Dictionary<String,String>] = []
+    
+    var temperatures = [Double](repeating: 0.0, count: 21)
+    var avgRadius = [Double](repeating: 0.0, count: 21)
+    var radius = [Double](repeating: 0.0, count: 21)
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    var hotTemp: Double = 0.0
     
-    for var i = 0; i<numberOfSegments; ++i {
-      segment.temperature = temperatures[i]
-      segments.append(segment)
-      profileArray.append(["segmentNumber":"\(i)", "segmentTemp":"\(segments[i].temperature)"])
-      //println("segmentNumber = \(i), segmentTemp =  \(segments[i].temperature)")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        for j in 1..<(n1) {
+            segment.radius = radius[j]
+            segment.temperature = temperatures[j]
+            segments.append(segment)
+            
+        }
     }
-  }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
   
-  //MARK: UITableViewDataSource
-  
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return numberOfSegments
-  }
-  
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let profileDict:Dictionary = profileArray[indexPath.row]
-    var cell: ProfileCell = tableView.dequeueReusableCellWithIdentifier("myCell") as! ProfileCell
-    cell.segmentNumberLabel.text = profileDict["segmentNumber"]
-    cell.segmentTemperatureLabel.text = profileDict["segmentTemp"]
-    return cell
-  }
-  
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 40.0
-  }
-  
-  func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    let titleHeader: String = "Segment No.              Segment Temperature, F"
-    return titleHeader
-  }
-  
   //MARK: Start calculations
-  
-  @IBAction func calculateButtonPressed(sender: UIButton) {
-    //read data
-    let hotTemperature = Double((hotFluidTemperatureTextField.text as NSString).doubleValue)
-    let ambientTemperature = Double((ambientTemperatureTextField.text as NSString).doubleValue)
-    let finCoefficient = Double((heatTransferCoefficientTextField.text as NSString).doubleValue)
-    let finODIn = Double((finODTextField.text as NSString).doubleValue)
-    let finIDIn = Double((finIDTextField.text as NSString).doubleValue)
-    let thicknessOfFinIn = Double((finThicknessTextField.text as NSString).doubleValue)
-    let finConductivity = Double((finThermalConductivityTextField.text as NSString).doubleValue)
     
-    let finID = finIDIn / 12.0
-    let finOD = finODIn / 12.0
-    let finThickness = thicknessOfFinIn / 12.0
+    @IBAction func calculateButton(_ sender: UIButton) {
+        //read data
+        let hotTemperature = Double((hotFluidTempTextField.text as String?)!)
+        let ambientTemperature = Double((coldFluidTempTextField.text as String?)!)
+        let finCoefficient = Double((heatTransferCoeffTextField.text as String?)!)
+        let finODIn = Double((finODTextField.text as String?)!)
+        let finIDIn = Double((finIDTextField.text as String?)!)
+        let thicknessOfFinIn = Double((finThicknessTextField.text as String?)!)
+        let finConductivity = Double((finConductivityTextField.text as String?)!)
+    
+        let finID = finIDIn! / 12.0
+        let finOD = finODIn! / 12.0
+        let finThickness = thicknessOfFinIn! / 12.0
       
-    println("hot temperature = \(hotTemperature) F")
-    println("ambient temperature = \(ambientTemperature) F")
-    println("finCoefficient = \(finCoefficient) BTU/hr-ft2-F")
-    println("finID = \(12.0 * finID) in")
-    println("finOD = \(12.0 * finOD) in")
-    println("finThickness = \(12.0 * finThickness) in")
-    println("finConductivity = \(finConductivity) BTU/hr-ft-F")
+        print("hot temperature = \(String(describing: hotTemperature)) F")
+        print("ambient temperature = \(String(describing: ambientTemperature)) F")
+        print("finCoefficient = \(String(describing: finCoefficient)) BTU/hr-ft2-F")
+        print("finID = \(12.0 * finID) in")
+        print("finOD = \(12.0 * finOD) in")
+        print("finThickness = \(12.0 * finThickness) in")
+        print("finConductivity = \(String(describing: finConductivity)) BTU/hr-ft-F")
+        
+        let n = n1 - 1
+        print("Number of segments = \(n)")
+        
+        hotTemp = hotTemperature!
     
-    let dr = (finOD - finID) / (2.0 * Double(numberOfSegments - 1))
+        //Mark: Set up fin radii
+        
+        radius = segmentRadii(n: n, finOD: finOD, finID: finID)
+        
+        let dr = (finOD - finID) / (2.0 * Double(n))
+        
+        for j in 1..<(n1) {
+            avgRadius[j] = radius[j] - dr / 2.0
+            print("j = \(j), segment radius = \(radius[j]), avg radius = \(avgRadius[j])")
+        }
+                
+        //MARK: Set up heat balance equations
+        
+        let phi = finConductivity! * finThickness / dr
+        print("phi = \(phi)")
+            
+        var aa = [Double](repeating: 0.0, count: n1)
+        var bb = [Double](repeating: 0.0, count: n1)
+        var cc = [Double](repeating: 0.0, count: n1)
+        var dd = [Double](repeating: 0.0, count: n1)
     
-    // Set up avgRadius array
-    
-    println("Number of segments = \(segments.count)")
-    
-    for var i = 0; i<segments.count; ++i {
-      if i == 0 {
-        segments[i].radius = 0.0
-      }
-      else if i == 1 {
-        segments[i].radius = finID / 2.0
-      }
-      else {
-        segments[i].radius = segments[i-1].radius + dr
-      }
-      println("i = \(i), segment radius = \(segments[i].radius)")
-    }
-    
-    for var j = 0; j<segments.count; ++j {
-      avgRadius[j] = segments[j].radius + dr / 2.0
-      println("j = \(j), segment radius = \(segments[j].radius), avg radius = \(avgRadius[j])")
-    }
-    
-    //MARK: Set up heat balance equations
-    
-    let phi = 2.0 * finCoefficient * dr * dr / (finConductivity * finThickness)
-    println("phi = \(phi)")
-    let range = segments.count - 1
-    
-    var aa = [Double](count:segments.count, repeatedValue: 0.0)
-    var bb = [Double](count:segments.count, repeatedValue: 0.0)
-    var cc = [Double](count:segments.count, repeatedValue: 0.0)
-    var dd = [Double](count:segments.count, repeatedValue: 0.0)
-      
-    for j in 1..<numberOfSegments {
-      if j == 1 {
-        cc[j] = 0.0
-        aa[j] = 2.0 * segments[1].radius + segments[2].radius + phi * avgRadius[1]
-        bb[j] = -segments[2].radius
-        dd[j] = 2.0 * segments[1].radius * hotTemperature + phi * avgRadius[1] * ambientTemperature
-      }
-      else if j == range {
-        cc[j] = -segments[range].radius
-        aa[j] = segments[range].radius + phi * avgRadius[range]
-        bb[j] = 0.0
-        dd[j] = avgRadius[range] * phi * ambientTemperature
-      }
-      else {
-        cc[j] = -segments[j].radius
-        aa[j] = segments[j].radius + segments[j+1].radius + phi * avgRadius[j]
-        bb[j] = -segments[j+1].radius
-        dd[j] = avgRadius[j] * phi * ambientTemperature
-      }
-      println("j= \(j), cc= \(cc[j]), aa= \(aa[j]), bb= \(bb[j]), dd= \(dd[j])")
-    }
-    
-    temperatures = thomasAlgorithm(range, aa: aa, bb: bb, cc: cc, dd: dd)
+        cc[1] = 0.0
+        aa[1] = phi * radius[1] + 2.0 * phi * radius[0] + 2.0 * avgRadius[1] * dr * finCoefficient!
+        bb[1] = -phi * radius[1]
+        dd[1] = 2.0 * phi * radius[0] * hotTemperature! + 2.0 * avgRadius[1] * dr * finCoefficient! * ambientTemperature!
+        print("j= \(1), cc= \(cc[1]), aa= \(aa[1]), bb= \(bb[1]), dd= \(dd[1])")
+        
+        for j in 2..<n {
+            cc[j] = -phi * radius[j - 1]
+            aa[j] = 2.0 * avgRadius[j] * (phi + dr * finCoefficient!)
+            bb[j] = -phi * radius[j]
+            dd[j] = 2.0 * avgRadius[j] * dr * finCoefficient! * ambientTemperature!
+            print("j= \(j), cc= \(cc[j]), aa= \(aa[j]), bb= \(bb[j]), dd= \(dd[j])")
+        }
+        
+        cc[n] = -phi * radius[n - 1]
+        aa[n] = phi * radius[n - 1] + 2.0 * avgRadius[n] * dr * finCoefficient!
+        bb[n] = 0.0
+        dd[n] = 2.0 * avgRadius[n] * dr * finCoefficient! * ambientTemperature!
+        print("j= \(n), cc= \(cc[n]), aa= \(aa[n]), bb= \(bb[n]), dd= \(dd[n])")
+        
+        temperatures = thomasAlgorithm(n, aa: aa, bb: bb, cc: cc, dd: dd)
 
-    let heatIn = (2.0 * pi * segments[1].radius * finConductivity * finThickness) * (hotTemperature - temperatures[1]) / (dr / 2.0)
-    var heatOut = 0.0
-    for i in 1..<numberOfSegments {
-      var roundTemp = Double(round(100 * temperatures[i] / 100))
-      println("i= \(i), temperature= \(roundTemp)")
-      heatOut = heatOut + (2.0 * pi * avgRadius[i] * dr) * (2.0 * finCoefficient * (temperatures[i] - ambientTemperature))
+        let heatIn = (2.0 * pi * radius[0] * finConductivity! * finThickness) * (hotTemperature! - temperatures[1]) / (dr / 2.0)
+        var heatOut = 0.0
+        var roundTemp = Double(round(100 * hotTemperature! / 100))
+        print("i= 0, temperature = \(roundTemp)")
+        for i in 1..<(n1) {
+            roundTemp = Double(round(100 * temperatures[i] / 100))
+            print("i= \(i), temperature = \(roundTemp)")
+            heatOut = heatOut + (2.0 * pi * avgRadius[i] * dr) * (2.0 * finCoefficient! * (temperatures[i] - ambientTemperature!))
+        }
+        let roundHeatIn = Double(round(100 * heatIn) / 100)
+        let roundHeatOut = Double(round(100 * heatOut) / 100)
+        print("Heat in = \(roundHeatIn), Heat out = \(roundHeatOut)")
+    
+        let avgHeat = (heatIn + heatOut) / 2.0
+        let yy = Double(round(100 * avgHeat) / 100)
+        print("Avg Heat = \(yy), BTU/hr per fin")
+        
+        let rout = finOD / 2.0
+        let rin = finID / 2.0
+        let idealHeat = 4.0 * pi * (rout * rout - rin * rin) * finCoefficient! * (hotTemperature! - ambientTemperature!)
+        let zz = Double(round(100 * (100.0 * avgHeat / idealHeat)) / 100)
+        print("Fin Efficiency = \(zz) %")
+        
+        heatTransferRateLabel.text = "\(yy)"
+        finEfficiencyLabel.text = "\(zz)"
     }
-    let roundHeatIn = Double(round(100 * heatIn) / 100)
-    let roundHeatOut = Double(round(100 * heatOut) / 100)
-    println("Heat in = \(roundHeatIn), Heat out = \(roundHeatOut)")
     
-    let avgHeat = (heatIn + heatOut) / 2.0
-    let yy = Double(round(100 * avgHeat) / 100)
-    println("Avg Heat = \(yy), BTU/hr-ft")
-        
-    let rout = finOD / 2.0
-    let rin = finID / 2.0
-    let idealHeat = 2.0 * pi * (rout * rout - rin * rin) * finCoefficient * (hotTemperature - ambientTemperature)
-    let finEfficiency = 100.0 * avgHeat / idealHeat
-    let zz = Double(round(100 * finEfficiency) / 100)
-    println("Fin Efficiency = \(zz) %")
-        
-    self.finHeatTransferRateTextField.text = "\(yy)"
-    self.finEfficiencyTextField.text = "\(zz)"
-    
-    //MARK: Update tableView
-    
-    profileArray = []
-    
-    for j in 0..<numberOfSegments {
-      if j == 0 {
-        segments[j].temperature = hotTemperature
-      }
-      else {
-        segments[j].temperature = temperatures[j]
-      }
-      
-      let y = Double(round(100 * segments[j].temperature) / 100)
-      println("j = \(j), temperature = \(y)")
-      profileArray.append(["segmentNumber":"\(j)", "segmentTemp":"\(y)"])
+    /*
+ let nf = NSNumberFormatter()
+ nf.numberStyle = NSNumberFormatterStyle.DecimalStyle
+ nf.maximumFractionDigits = 2
+ println(nf.stringFromNumber(0.33333)) // prints 0.33 */
+     
+    override func prepare(for Segue: UIStoryboardSegue, sender: Any?) {
+        if Segue.identifier == "toResultsVC" {
+            let resultsVC = Segue.destination as! ResultsViewController
+            for j in 0..<n1 {
+                resultsVC.radius[j] = radius[j]
+                print("j = \(j), radius = \(resultsVC.radius[j])")
+            }
+            let nf = NumberFormatter()
+            nf.usesSignificantDigits = true
+            nf.minimumFractionDigits = 3
+
+            var xz: Double = 0.0
+            var yz: Double = 0.0
+            resultsVC.hotTemp = hotTemp
+            //print((nf.string(from: 0.5)!))
+            print("xz = \(xz)")
+            yz = Double(round(100 * resultsVC.hotTemp) / 100)
+            resultsVC.profileArray.append(["segmentRadius":"\(xz)", "segmentTemp":"\(yz)"])
+            print("segmentRadius", "\(xz)", "segmentTemp", "\(yz)")
+            for j in 1..<n1  {
+                xz = Double(nf.string(from: (resultsVC.radius[j] * 12.0)))
+                yz = Double(round(100 * temperatures[j]) / 100)
+                resultsVC.profileArray.append(["segmentRadius":"\(xz)", "segmentTemp":"\(yz)"])
+                print("segmentRadius  ", NSString(format:"%.3f", xz), "segmentTemp", "\(yz)")
+            }
+        }
+
     }
-    println("\(profileArray.count) segments in array")
     
-    self.tableView.reloadData()
-  }
-  
-  func thomasAlgorithm(range: Int, aa:[Double], bb:[Double], cc:[Double], dd:[Double]) -> [Double] {
+    
+    @IBAction func tabularResultsPressed(_ sender: UIBarButtonItem) {
         
-        var xx = [Double](count:range + 1, repeatedValue: 0.0)
-        var qq = [Double](count:range + 1, repeatedValue: 0.0)
-        var ww = [Double](count:range + 1, repeatedValue: 0.0)
-        var gg = [Double](count:range + 1, repeatedValue: 0.0)
+        self.performSegue(withIdentifier: "toResultsVC", sender: self)
+    }
+    
+    
+    func segmentRadii(n: Int, finOD: Double, finID: Double) -> [Double] {
+        let dr = (finOD - finID) / (2.0 * Double(n))
         
-        for j in 1..<(range + 1) {
+        // Set up radius array
+       
+        for j in 0..<(n + 1) {
+            if j == 0 {
+                radius[j] = finID / 2.0
+            }
+            else if j == n {
+                radius[j] = finOD / 2.0
+            }
+            else {
+                radius[j] = radius[j - 1] + dr
+            }
+            print("j = \(j), segment radius = \(radius[j])")
+        }
+        
+        return radius
+    }
+    
+   
+    
+    // MARK: Thomas Algorithm for solving simultaneous linear equations in a tridiagonal matrix
+    
+    /* The equations to be solved are of the form: cc(i) * x(i-1) + aa(i) * x(i) + bb(i) * x(i+1) = dd(i)
+     where x(i) are the values of the unknown array x. */
+
+    func thomasAlgorithm(_ n: Int, aa:[Double], bb:[Double], cc:[Double], dd:[Double]) -> [Double] {
+        
+        var xx = [Double](repeating: 0.0, count: n1)
+        var qq = [Double](repeating: 0.0, count: n1)
+        var ww = [Double](repeating: 0.0, count: n1)
+        var gg = [Double](repeating: 0.0, count: n1)
+        
+        for j in 1..<(n1) {
             if j == 1 {
                 ww[j] = aa[j]
                 gg[j] = dd[j] / ww[j]
@@ -223,17 +246,62 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 gg[j] = (dd[j] - cc[j] * gg[j - 1]) / ww[j]
             }
         }
-        xx[range] = gg[range]
+        xx[n] = gg[n]
+        temperatures[n] = xx[n]
         
-        for var i = range - 1; i > 0; i-- {
-      
+        for i in ((0 + 1)...n - 1).reversed() {
+            
             xx[i] = gg[i] - qq[i] * xx[i + 1]
+            temperatures[i] = xx[i]
         }
-        return xx
+        return temperatures
     }
-
-  
-
 
 }
 
+/* //MARK: UITableViewDataSource
+ 
+ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+ return numberOfSegments
+ }
+ 
+ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ let profileDict:Dictionary = profileArray[(indexPath as NSIndexPath).row]
+ let cell: ProfileCell = tableView.dequeueReusableCell(withIdentifier: "myCell") as! ProfileCell
+ cell.segmentNumberLabel.text = profileDict["segmentNumber"]
+ cell.segmentTemperatureLabel.text = profileDict["segmentTemp"]
+ return cell
+ }
+ 
+ func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+ return 40.0
+ }
+ 
+ func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+ let titleHeader: String = "Segment No.              Temperature, F"
+ return titleHeader
+ 
+ }
+
+ //MARK: Update tableView
+ 
+ profileArray = []
+ 
+ for j in 0..<numberOfSegments {
+ if j == 0 {
+ segments[j].temperature = hotTemperature!
+ }
+ else {
+ segments[j].temperature = temperatures[j]
+ }
+ 
+ let y = Double(round(100 * segments[j].temperature) / 100)
+ print("j = \(j), temperature = \(y)")
+ profileArray.append(["segmentNumber":"\(j)", "segmentTemp":"\(y)"])
+ }
+ print("\(profileArray.count) segments in array")
+ 
+ self.tableView.reloadData()
+ }
+
+*/

@@ -9,11 +9,16 @@
 import Foundation
 
 struct Segment {
-  
-  var index: Int = 0
-  var temperature: Double = 0.0
-  var conductivity: Double = 0.0
-  var coefficient: Double = 0.0
-  var thickness: Double = 0.0
-  var radius: Double = 0.0
+    
+    var index: Int = 0
+    var temperature: Double = 0.0
+    var conductivity: Double = 0.0
+    var coefficient: Double = 0.0
+    var thickness: Double = 0.0
+    var radius: Double = 0.0
+    var avgRadius: Double = 0.0
+    
+    var segments = [Segment]()
+    
+    
 }

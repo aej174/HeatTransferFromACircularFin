@@ -13,8 +13,10 @@
 		22FE4A5B1B26126E00DD1E24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FE4A5A1B26126E00DD1E24 /* Images.xcassets */; };
 		22FE4A5E1B26126E00DD1E24 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22FE4A5C1B26126E00DD1E24 /* LaunchScreen.xib */; };
 		22FE4A6A1B26126E00DD1E24 /* HeatTransferToACircularFinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FE4A691B26126E00DD1E24 /* HeatTransferToACircularFinTests.swift */; };
-		22FE4A741B261C9900DD1E24 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FE4A731B261C9900DD1E24 /* ProfileCell.swift */; };
 		22FE4A761B26222200DD1E24 /* Segment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FE4A751B26222200DD1E24 /* Segment.swift */; };
+		625B26121F59A3430077B5B2 /* radialFins.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 625B26111F59A3430077B5B2 /* radialFins.jpg */; };
+		625B26141F59AC8D0077B5B2 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625B26131F59AC8D0077B5B2 /* ProfileTableViewCell.swift */; };
+		62D7CDF81F5B1FDF00C01E77 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D7CDF71F5B1FDF00C01E77 /* ResultsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +40,10 @@
 		22FE4A631B26126E00DD1E24 /* HeatTransferToACircularFinTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeatTransferToACircularFinTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22FE4A681B26126E00DD1E24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22FE4A691B26126E00DD1E24 /* HeatTransferToACircularFinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatTransferToACircularFinTests.swift; sourceTree = "<group>"; };
-		22FE4A731B261C9900DD1E24 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		22FE4A751B26222200DD1E24 /* Segment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Segment.swift; sourceTree = "<group>"; };
+		625B26111F59A3430077B5B2 /* radialFins.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = radialFins.jpg; sourceTree = "<group>"; };
+		625B26131F59AC8D0077B5B2 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		62D7CDF71F5B1FDF00C01E77 /* ResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultsViewController.swift; path = ../ResultsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +87,13 @@
 			children = (
 				22FE4A531B26126E00DD1E24 /* AppDelegate.swift */,
 				22FE4A551B26126E00DD1E24 /* ViewController.swift */,
+				62D7CDF71F5B1FDF00C01E77 /* ResultsViewController.swift */,
+				625B26131F59AC8D0077B5B2 /* ProfileTableViewCell.swift */,
 				22FE4A751B26222200DD1E24 /* Segment.swift */,
-				22FE4A731B261C9900DD1E24 /* ProfileCell.swift */,
 				22FE4A571B26126E00DD1E24 /* Main.storyboard */,
 				22FE4A5A1B26126E00DD1E24 /* Images.xcassets */,
 				22FE4A5C1B26126E00DD1E24 /* LaunchScreen.xib */,
+				625B26111F59A3430077B5B2 /* radialFins.jpg */,
 				22FE4A511B26126E00DD1E24 /* Supporting Files */,
 			);
 			path = HeatTransferToACircularFin;
@@ -162,14 +168,18 @@
 		22FE4A461B26126E00DD1E24 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Allan Jones";
 				TargetAttributes = {
 					22FE4A4D1B26126E00DD1E24 = {
 						CreatedOnToolsVersion = 6.3.2;
+						LastSwiftMigration = 0800;
 					};
 					22FE4A621B26126E00DD1E24 = {
 						CreatedOnToolsVersion = 6.3.2;
+						LastSwiftMigration = 0800;
 						TestTargetID = 22FE4A4D1B26126E00DD1E24;
 					};
 				};
@@ -201,6 +211,7 @@
 				22FE4A591B26126E00DD1E24 /* Main.storyboard in Resources */,
 				22FE4A5E1B26126E00DD1E24 /* LaunchScreen.xib in Resources */,
 				22FE4A5B1B26126E00DD1E24 /* Images.xcassets in Resources */,
+				625B26121F59A3430077B5B2 /* radialFins.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,9 +229,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22FE4A741B261C9900DD1E24 /* ProfileCell.swift in Sources */,
 				22FE4A561B26126E00DD1E24 /* ViewController.swift in Sources */,
 				22FE4A541B26126E00DD1E24 /* AppDelegate.swift in Sources */,
+				625B26141F59AC8D0077B5B2 /* ProfileTableViewCell.swift in Sources */,
+				62D7CDF81F5B1FDF00C01E77 /* ResultsViewController.swift in Sources */,
 				22FE4A761B26222200DD1E24 /* Segment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +296,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -299,7 +312,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -338,7 +351,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -351,8 +364,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HeatTransferToACircularFin/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -361,8 +377,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HeatTransferToACircularFin/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -380,7 +399,9 @@
 				);
 				INFOPLIST_FILE = HeatTransferToACircularFinTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeatTransferToACircularFin.app/HeatTransferToACircularFin";
 			};
 			name = Debug;
@@ -395,7 +416,9 @@
 				);
 				INFOPLIST_FILE = HeatTransferToACircularFinTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeatTransferToACircularFin.app/HeatTransferToACircularFin";
 			};
 			name = Release;
@@ -419,6 +442,7 @@
 				22FE4A6F1B26126E00DD1E24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		22FE4A701B26126E00DD1E24 /* Build configuration list for PBXNativeTarget "HeatTransferToACircularFinTests" */ = {
 			isa = XCConfigurationList;
@@ -427,6 +451,7 @@
 				22FE4A721B26126E00DD1E24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
