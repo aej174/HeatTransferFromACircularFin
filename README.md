@@ -1,0 +1,3 @@
+#HeatTransferToACircularFin README
+
+This program will compute the radial temperature profile in a circular fin and the heat transfer rate to or from the fin to the environment.  Multiplying this heat transfer rate by the number of fins per unit tube length, the tube length, the number of tubes per row and the number of rows in a finned tube bank will give the total heat transfer rate of the finned tube exchanger.  Note that the fin heat transfer coefficient is an input parameter and must be determined separately by an appropriate application. 
